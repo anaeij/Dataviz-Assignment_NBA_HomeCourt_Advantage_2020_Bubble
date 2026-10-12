@@ -2,28 +2,18 @@ project:
   type: website
   output-dir: docs
 
-website:
-  title: "2020 NBA Championship; Mickey Mouse or Cope?"
-  navbar:
-    left:
-      - href: index.qmd
-        text: Summary
-      - href: scientific.qmd
-        text: Scientific Article
-      - href: accessible.qmd
-        text: Interactive Explainer
-      - href: data-source.qmd
-        text: Data & Sources
-
 format:
   html:
-    theme:
-      - cosmo
-      - brand
-    css: styles.css
+    theme: litera
     toc: true
-    code-summary: "Show code"
+    toc-depth: 2
+    toc-title: "Contents"
+    title-block-banner: true
+    fig-dpi: 200
+    css: styles.css
 
-
-editor: visual
+execute:
+  echo: false
+  warning: false
+  message: false
 
