@@ -14,11 +14,11 @@ execute:
 
 The 2020 title is often dismissed as a “Mickey Mouse Ring.” But the bubble removed home-court advantage, which normally lets the higher seed host up to four of seven games. Did losing home advantage matter?
 
-Home teams have long had the upper hand in the NBA, winning about 65% of regular-season games in the 1980s. This advantage has been shrinking, falling to a 59% regular-season win rate in the 2010s, but it stayed larger in the playoffs, where home teams won about 63% of games. Part of that playoff edge is simply that the home team is usually the better team. The rest is generally credited to the venue itself: the crowd, familiar surroundings, and an opponent who had to travel.
+Home teams have long had the upper hand in the NBA, winning about 65% of regular-season games in the 1980s. This advantage has been shrinking, falling to a 59% regular-season win rate in the 2010s, but it stayed larger in the playoffs, where home teams won about 63% of games. Part of that playoff edge is simply that the home team is usually the better team, given that they are seeded higher as a result of greater success during the regular season. The rest is generally credited to the venue itself: the crowd, familiar surroundings, and an opponent who had to travel.
 
 In the bubble, the designated “home” team was still the higher seed. It just had no building and no crowd. Those teams won only 48% of their playoff games, compared with about 63% in the decade before. With only 83 games the exact figure is uncertain, but it sits well below the usual rate. The Lakers earned the top seed in the West and still won the title without the edge that seed normally buys.
 
-That edge returned along with the fans: home teams won 57% of playoff games in the 2021, when crowds were limited, and 58% from 2022 to 2026. If anything, the bubble made for a harder path for the favourites. It was played at Disney World, but there was nothing Mickey Mouse about it.
+Once teams went back to their own arenas, home win rates moved back up: 57% in the 2021 playoffs, when crowds were limited, and 58% from 2022 to 2026. If anything, the bubble made for a harder path for the favourites. It was played at Disney World, but there was nothing Mickey Mouse about it.
 
 ## 2. Version A: Scientific Article
 *Written for a scientifically literate audience, in the style of a journal article.*
@@ -95,23 +95,27 @@ fig.1 <- ggplot(by.season, aes(x = season, y = home.pct, shape = game.type)) +
   labs(
     x        = "Season (start year)",
     y        = "Home-team win percentage",
-    shape    = "Game type",
-    linetype = "Game type") +
-  theme(axis.line = element_line(colour = "black"))
-
+    shape    = "Game Type",
+    linetype = "Game Type") +
+   guides(shape    = guide_legend(title.position = "top", title.hjust = 0.5,
+                                 override.aes = list(size = 2.5)),
+         linetype = guide_legend(title.position = "top", title.hjust = 0.5,
+                                 override.aes = list(linewidth = 0.8))) +
+  theme(axis.line        = element_line(colour = "black"),
+        legend.position  = "bottom",
+        legend.key.width = unit(1.5, "cm"),
+        legend.key       = element_rect(fill = "white"))
 fig.1
 ```
 
 
-NBA game records go back to the league’s first season in 1946–47, but records before 1954–55 are incomplete in the source data, so our analysis begins there. Across the seven decades since, home teams have held a clear advantage in both the regular season as well as playoffs (fig. 1). During every single regular season, home teams have won more than half of their games, although that edge has been on a downward trend; falling from roughly 73% in the mid 1950s to about 55% by the 2020s. Playoff home teams held an even larger edge, near 85% in the mid 1950s, to almost 65% in the 1970s through the 2000s, before declining in recent seasons. Playoff values vary more from season to season because postseasons include only 17-89 games, compared to the regular season which include 288-1,230 games.
+NBA game records go back to the league’s first season in 1946–47, but records before 1954–55 are incomplete in the source data, so our analysis begins there. Across the seven decades since, home teams have held a clear advantage in both the regular season as well as playoffs (fig. 1). During every single regular season, home teams have won more than half of their games, although that edge has been on a downward trend; falling from roughly 73% in the mid 1950s to about 55% by the 2020s. Individual playoff seasons varied widely, from 86% in 1954-55 (21 games) to below 50% in a few seasons, but the smoothed trend shows playoff home advantage starting near 73%, holding near 65% from the 1970s through the 2000s, and declining in recent seasons. Playoff values vary more from season to season because postseasons include only 17 to 89 games, compared to the regular season which include 288 to 1,230 games.
 
 Despite being on a downward trend, the home-court advantage is still a significant factor worth considering.
 
 Home advantage in the playoffs plausibly reflects two kinds of factors. First, the home team is usually the better team, since home court goes to the team with the better regular-season record. Second, there are advantages tied to the venue itself: the home team does not travel, is familiar with its arena and city, has its usual support structure available, and plays in front of its own crowd. In a normal postseason, these factors always occur together, so their contributions cannot be separated.
 
-The 2020 bubble separated tehm. The designated home team was still the higher seed, but every team played at the same neutral site, with no crowds, no travel, and no familiar arena. If team quality drives playoff home advantage, bubble home teams should still have won close to the usual 63% of games. If factors related to the venue drive the advantage, their win percentage should fall toward 50%.
-
-There are many possible contributing factors that could partially explain this advantage. The following are some of the main factors that contribute to the home-court advantage: team with the home advantage is often the better team, having won more games in the regular season. A home ground advantage indicates a team that has won more games, therefore those teams also have an easier schedule during the playoffs (1st seed plays the 8 seed, 2nd seed plays the 7th, etc.). Some secondary advantages that are associated with having a home-court advantage are as follows: They don't have to travel, they are familiar with the arena and the city. Their support structure is available to them given the fact that they are playing in their home.
+The 2020 bubble separated them. The designated home team was still the higher seed, but every team played at the same neutral site, with no crowds, no travel, and no familiar arena. If team quality drives playoff home advantage, bubble home teams should still have won close to the usual 63% of games. If factors related to the venue drive the advantage, their win percentage should fall toward 50%.
 
 
 ### The Bubble Experiment
@@ -162,7 +166,7 @@ by.period <- all.games |>
 ```
 
 ```{r}
-#| label: bubble-tests
+#| label: tbl-bubble-tests
 #| tbl-cap: "Playoff home win percentage in each period compared with the 2019–20 bubble (two-proportion test)."
 
 # The bubble's row, to compare everything against
@@ -259,12 +263,12 @@ After the bubble, home win percentages moved back toward pre-bubble levels: 56.5
 
 ### Limitations
 
-Several caveats apply. First, the bubble produced only 83 playoff games, so its estimate is imprecise: the 95% CI spans roughly 37% to 59%, and the post-bubble periods could not be statistically distinguished from it. Second, the bubble changed more than the venue. Teams lived in isolation, returned from a four-month long layoff, adn neither team traveled, so the loss of home advantage cannot be attributed to the arena or crowd alone. Third, the 88 regular-season seeding games played in the bubble did not show a comparable decline (55.7% home wins), although this sample is similarly small. Finally, the bubble was a single event and cannot be repeated, so these results should be read as a natural experiment rather tahn a controlled test. What drove the longer-term decline in home advantage shown in @fig-1
+Several caveats apply. First, the bubble produced only 83 playoff games, so its estimate is imprecise: the 95% CI spans roughly 37% to 59%, and the post-bubble periods could not be statistically distinguished from it. Second, the bubble changed more than the venue. Teams lived in isolation, returned from a four-month long layoff, and neither team traveled, so the loss of home advantage cannot be attributed to the arena or crowd alone. Third, the 88 regular-season seeding games played in the bubble did not show a comparable decline (55.7% home wins), although this sample is similarly small. Finally, the bubble was a single event and cannot be repeated, so these results should be read as a natural experiment rather than a controlled test. What drove the longer-term decline in home advantage shown in @fig-1 remains an open question for future work. 
 
 (`r scales::percent(seeding.pct, accuracy = 0.1)` home wins across `r seeding.n` games)
 
 ### Conclusion
-Removing the home venue erased tye playoff home advantage that higher seeds normally enjoy. While the long-standing advantage before and after the bubble remained largely intact. This pattern is more consistent with venue-related factors than wtith team quality alone. For the 2020 title, it suggests that the top seeds, including the champion Los Angeles Lakers, competed without the edge their regular-season records would ordinarily have earned, making their path, if anything, more difficult rather than easier. Because this conclusion rests on a single 83-game natural experiment, it should be treated as suggestive rather than definitive
+Removing the home venue erased the playoff home advantage that higher seeds normally enjoy, while the long-standing advantage before and after the bubble remained largely intact. This pattern is more consistent with venue-related factors than with team quality alone. For the 2020 title, it suggests that the top seeds, including the champion Los Angeles Lakers, competed without the edge their regular-season records would ordinarily have earned, making their path, if anything, more difficult rather than easier. Because this conclusion rests on a single 83-game natural experiment, it should be treated as suggestive rather than definitive
 
 
 ## 3. Version B: Interactive Explainer
@@ -280,11 +284,10 @@ Ask any basketball fan and they'll tell you: it's easier to win at home. The num
 
 ```{r}
 #| label: fig-b1
-#| fig-cap: "Home teams have always won more than half their games, but the edge is smaller than it used to be. Each dot is one season; the lines show the overall trend."
+#| fig-cap: "In the regular season, home teams have always won more than half their games, but the edge is smaller than it used to be. Each dot is one season; the lines show the overall trend."
 #| fig-alt: "Line chart of the share of NBA games won by the home team from 1954 to 2025. Both the regular season (grey) and the playoffs (red) start above 70% and decline to about 55%. A red diamond marks the 2020 bubble playoffs at 48%, below the 50% coin-flip line."
 #| fig-width: 8
 
-library(plotly)
 
 # Colours: red draws attention to the playoffs, grey keeps the regular season in the background
 col.playoffs <- "#B2182B"
@@ -384,9 +387,18 @@ The top seeds in 2020, including the champion Lakers, played the playoffs withou
 It was played at Disney World, but there was nothing Mickey Mouse about it.
 
 
+## 4. Data and Source Note
 
 
+**Source** Game records come from *NBA Dataset: Box Scores and Stats (1947–Today)* by eoinamoore, published on Kaggle (<https://www.kaggle.com/datasets/eoinamoore/historical-nba-data-and-player-box-scores>). The analysis uses the dataset's `Games.csv` file, which contains one row per NBA game, including the home and away teams, final scores, game type and date. The dataset is updated nightly, so a later download may differ slightly; the version used here is included in the project repository.
 
+- **Seasons Included:** regular-season records before 1954-55 are incomplete in the source data (e.g., 18.of roughly 330 games for 1946-47), so the analysis begins with the 1954-55 season.
+- **Game Types:** games were classified using the type code in the NBA game ID (1= preseason, 2 = regular season, 3 = All-star games, 4 = playoffs). We included in-season tournament games that count toward regular-season standings and excluded preseason, All-star, play-in and NBA Cup final games.
+- **Season Labels:** seasons are labelled by the year they began (e.g., 2018 = 2018-19, including its playoffs, played in 2019).
+- **Bubble Games:** games played between july 30 and October 12, 2020 were classified as bubble games. They are excluded from Figure 1 and analysed separately in Figure 2.
+- **Statistics:** 95% confidence intervals use the normal approximation; differences between periods were tested with two-proportion tests. 
+
+**Limitations:** The dataset records game outcomes only, so it cannot directly measure crowd size, travel or other mechanisms behind some aspects of home advantage. Home-court assignment in the playoffs reflects seeding, so playoff home win rates combine team quality and venue effects.
 
 
 
